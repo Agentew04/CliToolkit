@@ -11,9 +11,6 @@ namespace SourceGeneratorInCSharp {
         [Description("the name of the user")]
         public string Username { get; init; } = "";
 
-        [Parameters]
-        public List<string> Parameters { get; init; } = new();
-
         [Ignore]
         public int Number { get; init; } = 0;
     }

@@ -1,5 +1,6 @@
 ﻿using Generator;
 using Generator.Attributes;
+using System.Diagnostics;
 using System.Reflection;
 
 namespace SourceGeneratorInCSharp;
@@ -8,6 +9,7 @@ namespace SourceGeneratorInCSharp;
 public partial class HelloWorld {
 
     public static void Main(string[] args) {
+        var sw = Stopwatch.StartNew();
         var program = new HelloWorld();
 
         string command = "";
@@ -48,13 +50,20 @@ public partial class HelloWorld {
             .Where(x => x.GetCustomAttribute<ArgumentsAttribute>() is not null);
 
         // collect all flags
-        var flags = CollectFlags(argParams);
+        var flagsType = CollectFlags(argParams);
+
+        object?[] parameters = GetCommandParameters(method, args, flagsType);
+
+        method.Invoke(program, parameters);
+        sw.Stop();
+        Console.WriteLine($"Finished in {sw.Elapsed}ms");
     }
 
-    private static List<Flag> CollectFlags(IEnumerable<Type> types) {
-        List<Flag> flags = new();
+    private static Dictionary<Type, List<Flag>> CollectFlags(IEnumerable<Type> types) {
+        Dictionary<Type, List<Flag>> flags = new();
 
         foreach(Type type in types) {
+            flags[type] = new List<Flag>();
             var properties = type.GetProperties();
 
             foreach(var property in properties) {
@@ -77,7 +86,7 @@ public partial class HelloWorld {
 
                 bool hasValue = property.PropertyType != typeof(bool);
 
-                flags.Add(new Flag {
+                flags[type].Add(new Flag {
                     Name = fullname,
                     ShortName = shortname,
                     Description = property.GetCustomAttribute<DescriptionAttribute>()?.Description ?? "",
@@ -88,6 +97,42 @@ public partial class HelloWorld {
             }
         }
         return flags;
+    }
+
+    private static object?[] GetCommandParameters(MethodInfo command,
+                                                 string[] args,
+                                                 Dictionary<Type, List<Flag>> flagsType) {
+        object?[] parameters = new object?[command.GetParameters().Length];
+        int i = 0;
+        foreach (var kvp in flagsType) {
+            Type type = kvp.Key;
+            List<Flag> flags = kvp.Value;
+            var obj = Activator.CreateInstance(type);
+
+            // parse the flags for this class
+            foreach (var flag in flags) {
+                if (!flag.HasValue) { // is boolean
+                    bool flagvalue = Flag.HasFlag(args, flag);
+                    flag.Property.SetValue(obj, flagvalue);
+                    continue;
+                }
+
+                bool hasValue = Flag.TryGetFlagValue(args, flag, out string value);
+                if (flag.IsOptional && !hasValue) {
+                    if (flag.Property.PropertyType.IsValueType) {
+                        flag.Property.SetValue(obj, Activator.CreateInstance(flag.Property.PropertyType));
+                    } else {
+                        flag.Property.SetValue(obj, null);
+                    }
+                    continue;
+                }
+                flag.Property.SetValue(obj, value);
+            }
+
+            parameters[i] = obj;
+            i++;
+        }
+        return parameters;
     }
 
     [Init]
