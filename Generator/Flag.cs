@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Generator; 
+namespace Cli.Toolkit;
 public sealed class Flag {
     public string Name { get; set; }
     public string ShortName { get; set; } = string.Empty;

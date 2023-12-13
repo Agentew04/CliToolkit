@@ -9,9 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Generator\Generator.csproj"
-        OutputItemType="Analyzer"
-        />
+    <ProjectReference Include="..\Generator\Cli.Toolkit.csproj" OutputItemType="Analyzer" />
         <!-- acima:  ReferenceOutputAssembly="false"-->
   </ItemGroup>
 </Project>

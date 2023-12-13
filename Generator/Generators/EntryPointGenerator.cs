@@ -9,17 +9,19 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace Generator;
+namespace Cli.Toolkit.Generators;
 
 [Generator]
-public sealed class ExampleGenerator : IIncrementalGenerator {
-    public void Initialize(IncrementalGeneratorInitializationContext context) {
+public sealed class EntryPointGenerator : IIncrementalGenerator
+{
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
 
         // isso pega apenas metodos que tem o atributo EntryPoint
         var methods = context.SyntaxProvider
             .CreateSyntaxProvider(predicate: static (s, _) => IsSyntaxTargetForGeneration(s),
                                   transform: static (ctx, _) => GetTargetForGeneration(ctx));
-        
+
         // isso junta eles e a compilacao? nao sei
         var compilationAndEnums = context.CompilationProvider.Combine(methods.Collect());
 
@@ -28,7 +30,8 @@ public sealed class ExampleGenerator : IIncrementalGenerator {
             (spc, source) => Execute(source.Left, source.Right, spc));
     }
 
-    public static bool IsSyntaxTargetForGeneration(SyntaxNode syntaxNode) {
+    public static bool IsSyntaxTargetForGeneration(SyntaxNode syntaxNode)
+    {
         return syntaxNode is MethodDeclarationSyntax methodDeclarationSyntax &&
             methodDeclarationSyntax.AttributeLists.Count > 0 &&
             methodDeclarationSyntax.AttributeLists.Any(x =>
@@ -40,18 +43,25 @@ public sealed class ExampleGenerator : IIncrementalGenerator {
 
     public void Execute(Compilation compilation,
         ImmutableArray<MethodDeclarationSyntax> methods,
-        SourceProductionContext context) {
+        SourceProductionContext context)
+    {
 
-        if(methods.Length > 1) {
+        if (methods.Length > 1)
+        {
             var error = Diagnostic.Create(DiagnosticDescriptors.MultipleEntryPointsMessage,
                                methods[1].GetLocation());
             context.ReportDiagnostic(error);
             return;
         }
+        if (methods.Length <= 0)
+        {
+            return;
+        }
         MethodDeclarationSyntax method = methods[0];
 
         var parameters = method.ParameterList;
-        if(parameters.Parameters.Count > 2) {
+        if (parameters.Parameters.Count > 2)
+        {
             var error = Diagnostic.Create(DiagnosticDescriptors.MultipleParametersMesage,
                                methods[1].GetLocation());
             context.ReportDiagnostic(error);
@@ -66,11 +76,12 @@ public sealed class ExampleGenerator : IIncrementalGenerator {
         var className = methodSymbol.ContainingType.Name;
         var classNamespace = methodSymbol.ContainingNamespace?.ToDisplayString();
         string sourceCode = CreateCode(classNamespace, className, method.Identifier.Text, configType.Type, compilation);
-        
+
         context.AddSource($"{className}Main.g.cs", SourceText.From(sourceCode, Encoding.UTF8));
     }
 
-    private static string CreateCode(string @namespace, string @class, string method, TypeSyntax configType, Compilation compilation) {
+    private static string CreateCode(string @namespace, string @class, string method, TypeSyntax configType, Compilation compilation)
+    {
         var code = $$"""
         using Generator;
 
@@ -89,13 +100,15 @@ public sealed class ExampleGenerator : IIncrementalGenerator {
         return code;
     }
 
-    private static string CreateFlagsCode(TypeSyntax type, Compilation compilation) {
+    private static string CreateFlagsCode(TypeSyntax type, Compilation compilation)
+    {
         StringBuilder sb = new($$"""
         List<Flag> flags = new();
 
         """);
         var members = (compilation.GetSemanticModel(type.SyntaxTree).GetDeclaredSymbol(type) as ITypeSymbol).GetMembers();
-        foreach(var member in members) {
+        foreach (var member in members)
+        {
             //if(member is not IPropertySymbol property) continue;
             //new Flag() {
             //    Description = "",
@@ -133,7 +146,8 @@ public sealed class ExampleGenerator : IIncrementalGenerator {
         return sb.ToString();
     }
 
-    private static string ParseFlagsCode() {
+    private static string ParseFlagsCode()
+    {
         var source = $$"""
         List<Flag> flags = new(); // ...
 

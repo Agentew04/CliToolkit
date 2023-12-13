@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Generator.Attributes {
+namespace Cli.Toolkit.Attributes {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
     public sealed class IgnoreAttribute : Attribute {
     }

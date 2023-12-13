@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Generator.Attributes;
+namespace Cli.Toolkit.Attributes;
 [AttributeUsage(AttributeTargets.Method)]
 public sealed class EntryPointAttribute : Attribute {
 }

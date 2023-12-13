@@ -1,14 +1,21 @@
-﻿using Generator;
+﻿using Cli.Toolkit;
+using Cli.Toolkit.Attributes;
 using Generator.Attributes;
 using System.Diagnostics;
 using System.Reflection;
 
 namespace SourceGeneratorInCSharp;
 
-[CliProgram]
 public partial class HelloWorld {
 
+    [Lazy]
+    private static Config? cfg;
+
     public static void Main(string[] args) {
+        Console.WriteLine(Cfg.PrintMore);
+        
+        //Console.WriteLine(Cfg.PrintMore); 
+        return;
         var sw = Stopwatch.StartNew();
         var program = new HelloWorld();
 
@@ -133,17 +140,5 @@ public partial class HelloWorld {
             i++;
         }
         return parameters;
-    }
-
-    [Init]
-    public void Init() {
-        // init shared stuff
-    }
-
-    [DefaultCommand]
-    [Command("add")]
-    public void Add(Config args) {
-
-    }
-    
+    }    
 }
