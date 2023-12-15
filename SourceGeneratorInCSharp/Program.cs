@@ -12,8 +12,19 @@ public partial class HelloWorld {
     private static Config? cfg;
 
     public static void Main(string[] args) {
-        Console.WriteLine(Cfg.PrintMore);
-        
+        //Console.WriteLine(Cfg.PrintMore);
+
+        Cli.Toolkit.Input.IntReader.Options options = new() {
+            Prompt = "Enter a number: ",
+            AllowNegative = true,
+            Range = new(0, 10),
+            DefaultValue = 5,
+            AllowEmpty = true
+        };
+        var r = Cli.Toolkit.Input.IntReader.ReadInt(options);
+        Console.WriteLine(r);
+
+
         //Console.WriteLine(Cfg.PrintMore); 
         return;
         var sw = Stopwatch.StartNew();

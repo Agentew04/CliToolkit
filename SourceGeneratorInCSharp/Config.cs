@@ -1,4 +1,4 @@
-﻿using Generator.Attributes;
+﻿using Cli.Toolkit.Attributes;
 
 namespace SourceGeneratorInCSharp {
     [Arguments]
