@@ -13,6 +13,20 @@ public partial class HelloWorld {
 
     public static void Main(string[] args) {
         Console.WriteLine(Cfg.Number);
+        //Console.WriteLine(Cfg.PrintMore);
+
+        Cli.Toolkit.Input.IntReader.Options options = new() {
+            Prompt = "Enter a number: ",
+            AllowNegative = true,
+            Range = new(0, 10),
+            DefaultValue = 5,
+            AllowEmpty = true
+        };
+        var r = Cli.Toolkit.Input.IntReader.ReadInt(options);
+        Console.WriteLine(r);
+
+
+        //Console.WriteLine(Cfg.PrintMore); 
         return;
         var sw = Stopwatch.StartNew();
         var program = new HelloWorld();
