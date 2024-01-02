@@ -1,12 +1,12 @@
-# CLIToolkit
+# Cli.Toolkit
 
 This project is mainly composed of a source generator that helps
 the developer to create a command line interface for a .NET Core
-application.
+application. It also contains many useful classes and methods.
 
 ## Installation
 
-The package is available on NuGet [here](https://www.nuget.org/packages/CLIToolkit/).
+The package is available on NuGet [here](https://www.nuget.org/packages/Cli.Toolkit/).
 
 ## Usage
 

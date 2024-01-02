@@ -1,8 +1,8 @@
-﻿using Cli.Toolkit;
-using Cli.Toolkit.Attributes;
+﻿using Cli.Toolkit.Attributes;
 using Generator.Attributes;
 using System.Diagnostics;
 using System.Reflection;
+using Cli.Toolkit;
 
 namespace SourceGeneratorInCSharp;
 
@@ -12,9 +12,7 @@ public partial class HelloWorld {
     private static Config? cfg;
 
     public static void Main(string[] args) {
-        Console.WriteLine(Cfg.PrintMore);
-        
-        //Console.WriteLine(Cfg.PrintMore); 
+        Console.WriteLine(Cfg.Number);
         return;
         var sw = Stopwatch.StartNew();
         var program = new HelloWorld();

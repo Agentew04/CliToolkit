@@ -1,7 +1,9 @@
-﻿using Generator.Attributes;
+﻿using Cli.Toolkit.Attributes;
+using Cli.Toolkit.Generators;
 
 namespace SourceGeneratorInCSharp {
     [Arguments]
+    [Buildable]
     public class Config {
         [FlagName("verbose", "v")]
         public bool PrintMore { get; init; }
@@ -13,5 +15,10 @@ namespace SourceGeneratorInCSharp {
 
         [Ignore]
         public int Number { get; init; } = 0;
+
+        public Config()
+        {
+            Console.WriteLine("Config created!");
+        }
     }
 }
