@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cli.Toolkit", "Generator\Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SourceGeneratorInCSharp", "SourceGeneratorInCSharp\SourceGeneratorInCSharp.csproj", "{80CD6AA7-FC1C-4476-AE33-FEC23110E607}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceGen", "SourceGen\SourceGen\SourceGen.csproj", "{80CA0C20-BF75-403D-BC63-E459EDCE3CF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SourceGen.Tests", "SourceGen\SourceGen.Tests\SourceGen.Tests.csproj", "{63DA9401-4552-474F-9EB0-DA54E4F0D41F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{80CD6AA7-FC1C-4476-AE33-FEC23110E607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80CD6AA7-FC1C-4476-AE33-FEC23110E607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80CD6AA7-FC1C-4476-AE33-FEC23110E607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80CA0C20-BF75-403D-BC63-E459EDCE3CF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80CA0C20-BF75-403D-BC63-E459EDCE3CF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80CA0C20-BF75-403D-BC63-E459EDCE3CF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80CA0C20-BF75-403D-BC63-E459EDCE3CF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63DA9401-4552-474F-9EB0-DA54E4F0D41F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63DA9401-4552-474F-9EB0-DA54E4F0D41F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63DA9401-4552-474F-9EB0-DA54E4F0D41F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63DA9401-4552-474F-9EB0-DA54E4F0D41F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

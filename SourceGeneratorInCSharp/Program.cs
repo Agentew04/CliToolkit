@@ -2,7 +2,9 @@
 using Generator.Attributes;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Cli.Toolkit;
+using Cli.Toolkit.Generators;
 
 namespace SourceGeneratorInCSharp;
 
@@ -10,9 +12,13 @@ public partial class HelloWorld {
 
     [Lazy]
     private static Config? cfg;
+    
+    [ThreadSafe]
+    private static int _number = 5;
 
     public static void Main(string[] args) {
         Console.WriteLine(Cfg.Number);
+        HelloWorld.Number = 10;
         //Console.WriteLine(Cfg.PrintMore);
 
         Cli.Toolkit.Input.IntReader.Options options = new() {
